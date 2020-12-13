@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
-	"path"
+	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
@@ -21,9 +21,7 @@ import (
 var AccessToken = strconv.Itoa(rand.Int())
 
 func init() {
-	_, filename, _, _ := runtime.Caller(0)
-	currentPath := path.Dir(filename)
-	fullpath := path.Join(currentPath, "./../data", "winners.json")
+	fullpath, _ := filepath.Abs("winners.json")
 	LoadFromJSON(fullpath)
 }
 

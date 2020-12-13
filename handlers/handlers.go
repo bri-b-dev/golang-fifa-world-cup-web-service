@@ -1,17 +1,33 @@
 package handlers
 
 import (
+	"github.com/gin-gonic/gin"
 	"golang-fifa-world-cup-web-service/data"
 	"net/http"
 )
 
-// RootHandler returns an empty body status code
-func RootHandler(res http.ResponseWriter, req *http.Request) {
+// RootHandler godoc
+// @Summary returns an empty body status code
+// @Success 204
+// @Router / [get]
+func RootHandler(c *gin.Context) {
+	rootHandler(c.Writer, c.Request)
+}
+
+func rootHandler(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(http.StatusNoContent)
 }
 
-// ListWinners returns winners from the list
-func ListWinners(res http.ResponseWriter, req *http.Request) {
+// ListWinners godoc
+// @Summary returns winners from the list
+// @Produce json
+// @Success 200
+// @Router /winners [get]
+func ListWinners(c *gin.Context) {
+	listWinners(c.Writer, c.Request)
+}
+
+func listWinners(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 
 	year := req.URL.Query().Get("year")
@@ -33,8 +49,16 @@ func ListWinners(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// AddNewWinner adds new winner to the list
-func AddNewWinner(res http.ResponseWriter, req *http.Request) {
+// AddNewWinner godoc
+// @Summary adds new winner to the list
+// @Produce json
+// @Success 201
+// @Router /winners [post]
+func AddNewWinner(c *gin.Context) {
+	addNewWinner(c.Writer, c.Request)
+}
+
+func addNewWinner(res http.ResponseWriter, req *http.Request) {
 
 	accessToken := req.Header.Get("X-ACCESS-TOKEN")
 	isTokenValid := data.IsAccessTokenValid(accessToken)
@@ -50,13 +74,21 @@ func AddNewWinner(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// WinnersHandler is the dispatcher for all /winners URL
-func WinnersHandler(res http.ResponseWriter, req *http.Request) {
+// WinnersHandler godoc
+// @Summary is the dispatcher for all /winners URL
+// @Produce json
+// @Success 201
+// @Router /winners [any]
+func WinnersHandler(c *gin.Context) {
+	winnersHandler(c.Writer, c.Request)
+}
+
+func winnersHandler(res http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:
-		ListWinners(res, req)
+		listWinners(res, req)
 	case http.MethodPost:
-		AddNewWinner(res, req)
+		addNewWinner(res, req)
 	default:
 		res.WriteHeader(http.StatusMethodNotAllowed)
 	}

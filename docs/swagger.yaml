@@ -1,0 +1,33 @@
+basePath: /
+info:
+  contact:
+    name: API Support
+  description: Swagger API for Golang Project Blueprint.
+  license:
+    name: MIT
+    url: https://github.com/bri-b-dev/golang-fifa-world-cup-web-service/master/LICENSE
+  termsOfService: http://swagger.io/terms/
+  version: "1.0"
+paths:
+  /:
+    get:
+      responses:
+        "204":
+          description: ""
+      summary: returns an empty body status code
+  /winners:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: returns winners from the list
+    post:
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ""
+      summary: adds new winner to the list
+swagger: "2.0"
